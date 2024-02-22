@@ -6,6 +6,7 @@ import ij.ImagePlus;
 import ij.process.ImageConverter;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
 import javax.imageio.ImageIO;
 import lombok.AllArgsConstructor;
@@ -52,5 +53,15 @@ public class SaryService {
     bucketComponent.upload(blackandWhiteImage, bucketKeyTransformedImage);
 
     return bucketComponent.presign(bucketKeyTransformedImage, Duration.ofMinutes(30)).toString();
+  }
+
+  public String getOriginalImageUrl(String id) {
+    URL originalUrl = bucketComponent.presign(id + "/original.png", Duration.ofMinutes(20));
+    return originalUrl.toString();
+  }
+
+  public String getTransformedImageUrl(String id) {
+    URL transformedUrl = bucketComponent.presign(id + "/transformed.png", Duration.ofMinutes(20));
+    return transformedUrl.toString();
   }
 }
